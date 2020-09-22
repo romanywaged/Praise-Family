@@ -1,0 +1,84 @@
+<resources>
+    <string name="app_name">Praise Family</string>
+    <string name="home">Praise Family</string>
+    <string-array name="Choir_Name">
+        <item>Choose Your Choir Name</item>
+        <item>كورال ملايكه</item>
+        <item>كورال تى بارثينوس</item>
+        <item>كورال مارمينا</item>
+        <item>كورال القديسين</item>
+        <item>كورال معلم الاجيال</item>
+        <item>كورال بركه</item>
+        <item>كورال ابونا اندراوس</item>
+        <item>كورال امنا العدرا</item>
+        <item>كورال خريجين</item>
+        <item>كورال مارارفرام السريانى</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    //romany info
+    <string name="romany">Romany Waged Adli</string>
+    <string name="Android_Developer">Android Developer</string>
+    <string name="Email">romanywaged2@gmail.com</string>
+    <string name="facebook">
+         <a href="https://www.facebook.com/romany.waged">Romany Waged</a>
+    </string>
+    <string name="linked_In">
+        <a href="https://www.linkedin.com/in/romany-waged-85370b177/">Romany Waged</a>
+    </string>
+
+
+    //ramy info
+    <string name="ramy">Ramy Makram Eyd</string>
+    <string name="Asp">Asp.Net Developer</string>
+    <string name="Face_Ramy">
+        <a href="https://www.facebook.com/RamyMakramEyd">Ramy Makram</a>
+    </string>
+    <string name="Link_Ramy"><a href="https://www.linkedin.com/in/ramymakrameyd">Ramy Makram</a></string>
+    <string name="Email_ramy">Ramymakrameyd@outlook.com</string>
+    <string name="App_Developer">App Developers</string>
+
+
+    //Praise Family History
+
+    <string name="History">
+        #اسرة_التسبيح
+الاسرة بتخدم من اكتر من ٢٠ سنة الاسرة بتضم كورالات لكل المراحل من اول سن حضانة لحد سن خدام كل الخدام الموجودين فى الاسرة كانوا مخدومين فى الكورال زمان اتعلمنا وفهمنا وكبرنا على ايد خدام علمونا معنى التسبيح وعلمونا ان التسبيح ذبيحة وكل الفضل اللى احنا فيه دا يرجع لتعب خدام كتير
+ الاسرة حاليا بتضم :-
+كورال حضانة
+كورال ابتدائي
+كورال اعدادى
+كورال ثانوى
+كورال جامعة وخريجين
+كورال خدام
+كورال بركة
+كورال أمهات
+
+والأسرة بتخدم كنايس وقرى داخل وخارج القاهرة و خدنا بركة الخدمة فى
+المنيا - سوهاج - أسيوط  - فايد - اسماعيلية وغيرها كتير من الخدمات داخل كنايس القاهرة .
+الاسرة عملت اربع حفلات وبتحضر ال حفلة الخامس
+) اول حفلة حياتنا تسبيح سنة ٢٠١١ ( على مسرح الانبا رويس
+تانى حفلة نعلن مجدك سنة ٢٠١٢ ( على مسرح الانبا رويس)
+تالت حفلة قول كلمتك سنة ٢٠١٣  ( على مسرح الدلاسال)
+رابع حفلة ساكن فى علاه سنة  ٢٠١٥
+ ( على مسرح الانبا رويس والخاص بإصدار الالبوم الأول)
+ودى خامس حفلة ( هيستجيب)
+ والحفلة خاصة بإصدار الالبوم الثانى لاسرة التسبيح.
+الاسرة بتدخل مهرجان الكرازة المرقسية من سنة ٢٠٠٧  واخر مشاركة لينا كانت سنة ٢٠١٧
+سنة ٢٠٠٩ / ٢٠١٠  حصل كورال جامعة وكورال اسرة البركة على المستوى الأول فى مهرجان الكرازة المرقسية على مستوى جمهورية مصر العربية والسودان.
+وجدير بالذكر أن كل الكورالات التانية كانت بتاخد مركز اول على مستوى الحى( شرق السكة الحديد وحدايق القبة)
+الاسرة بتضم بجميع مراحلها اكتر من ١٠٠٠ مخدوم وبتخدم طول ايام السنة من عروض الميلاد والقيامة والنهضة والمهرجان والنيروز ورأس السنة .
+الاسرة عملت سهرتين صلاة وتسبيح
+سهرة هأنذا
+سهرة فلترتل
+الاسرة بتخدم فى ملاجى ودار ايتام ودار مسنين وغيره من الخدمات المتخصصة
+
+صلواتكم من أجل استمرار خدمتن
+
+    </string>
+
+
+</resources>
