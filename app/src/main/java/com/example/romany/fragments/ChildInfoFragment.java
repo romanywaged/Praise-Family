@@ -24,42 +24,27 @@ import com.example.romany.DB.ChildModel;
 import com.example.romany.DB.ProvaModel;
 import com.example.romany.DB.RomanyDbOperation;
 import com.example.romany.R;
+import com.example.romany.activities.ChildDBActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChildInfoFragment extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class ChildInfoFragment extends Fragment
+{
+    private static final String COIR_ID_KEY = "id";
+    private int coirID;
 
     private OnFragmentInteractionListener mListener;
-
-    private int Child_ID;
     private RomanyDbOperation dbOperation;
     private TextView Name,Phone,Khadem,Last_Prova,num_of_provat,School;
     private static final int RequestCall=1;
-    public ChildInfoFragment() {
-        // Required empty public constructor
-    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ChildInfoFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ChildInfoFragment newInstance(String param1, String param2) {
+    public ChildInfoFragment() {}
+
+    public static ChildInfoFragment newInstance(int coirId) {
         ChildInfoFragment fragment = new ChildInfoFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(COIR_ID_KEY, coirId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,10 +52,8 @@ public class ChildInfoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        if (getArguments() != null)
+            coirID = getArguments().getInt(COIR_ID_KEY);
     }
 
     @Override
@@ -85,14 +68,12 @@ public class ChildInfoFragment extends Fragment {
        Phone=frag.findViewById(R.id.txt_phone_number);
        School=frag.findViewById(R.id.txt_School_year);
 
-       Bundle bundle=getArguments();
-       Child_ID=bundle.getInt("id");
        dbOperation=new RomanyDbOperation();
        List<ProvaModel> provaModels=new ArrayList<>();
-       final ChildModel childModel=dbOperation.selectSpicifiecChildWithID(Child_ID).get(0);
-        for (int i=0;i<dbOperation.selectLastDate(Child_ID).size();i++)
+       final ChildModel childModel=dbOperation.selectSpicifiecChildWithID(coirID).get(0);
+        for (int i=0;i<dbOperation.selectLastDate(coirID).size();i++)
         {
-            provaModels.add(dbOperation.selectLastDate(Child_ID).get(i).getProvaRelationObject());
+            provaModels.add(dbOperation.selectLastDate(coirID).get(i).getProvaRelationObject());
         }
         int u=provaModels.size();
         if (provaModels.size()!=0||u!=0) {
@@ -107,25 +88,21 @@ public class ChildInfoFragment extends Fragment {
        Khadem.setText(childModel.getKhademName());
        School.setText(childModel.getYear());
 
-       Phone.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               MakeCall();
-           }
-       });
+       Phone.setOnClickListener(v -> MakeCall());
 
-       Last_Prova.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               FragmentManager manager=getFragmentManager();
-               FragmentTransaction transaction=manager.beginTransaction();
-               ChildHistoryFragment Child_H=new ChildHistoryFragment();
-               Bundle bundle=new Bundle();
-               bundle.putInt("id",Child_ID);
-               Child_H.setArguments(bundle);
-               transaction.replace(R.id.contain,Child_H).addToBackStack(null)
-                       .commit();
-           }
+       Last_Prova.setOnClickListener(view ->
+       {
+           ChildHistoryFragment Child_H = ChildHistoryFragment.newInstance(coirID);
+           ((ChildDBActivity)getActivity()).replaceFragment(Child_H, Child_H.getTag(), true);
+
+//               FragmentManager manager=getFragmentManager();
+//               FragmentTransaction transaction=manager.beginTransaction();
+//               ChildHistoryFragment Child_H=new ChildHistoryFragment();
+//               Bundle bundle=new Bundle();
+//               bundle.putInt("id",coirID);
+//               Child_H.setArguments(bundle);
+//               transaction.replace(R.id.contain,Child_H).addToBackStack(null)
+//                       .commit();
        });
         return frag;
     }

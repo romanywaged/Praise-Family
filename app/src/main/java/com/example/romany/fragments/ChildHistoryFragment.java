@@ -19,38 +19,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ChildHistoryFragment extends Fragment {
+public class ChildHistoryFragment extends Fragment
+{
+    private static final String COIR_ID_KEY = "id";
+    private int coirID;
 
-    private int Child_ID;
     private RomanyDbOperation dbOperation;
     private HistoryAdapter adapter;
     private RecyclerView Provas;
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    public ChildHistoryFragment() {}
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ChildHistoryFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ChildHistoryFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ChildHistoryFragment newInstance(String param1, String param2) {
+    public static ChildHistoryFragment newInstance(int coirId) {
         ChildHistoryFragment fragment = new ChildHistoryFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(COIR_ID_KEY, coirId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,6 +41,8 @@ public class ChildHistoryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null)
+            coirID = getArguments().getInt(COIR_ID_KEY);
 
     }
 
@@ -66,13 +51,11 @@ public class ChildHistoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View frag=inflater.inflate(R.layout.fragment_child_history, container, false);
 
-        Bundle bundle=getArguments();
-        Child_ID=bundle.getInt("id");
         dbOperation=new RomanyDbOperation();
         List<ProvaModel> provaModels=new ArrayList<>();
-        for (int i=0;i<dbOperation.selectLastDate(Child_ID).size();i++)
+        for (int i=0;i<dbOperation.selectLastDate(coirID).size();i++)
         {
-            provaModels.add(dbOperation.selectLastDate(Child_ID).get(i).getProvaRelationObject());
+            provaModels.add(dbOperation.selectLastDate(coirID).get(i).getProvaRelationObject());
         }
         adapter=new HistoryAdapter(provaModels,getActivity());
         Provas=frag.findViewById(R.id.prove_History);

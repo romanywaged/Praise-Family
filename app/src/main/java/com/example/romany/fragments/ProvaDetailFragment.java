@@ -34,64 +34,55 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProvaDetailFragment extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private String mParam1;
-    private String mParam2;
+public class ProvaDetailFragment extends Fragment
+{
+    private static final String PROVA_ID_KEY = "prova_id";
+    private static final String PROVA_NAME_KEY = "prova_name";
+
+    private int provaID;
+    private String provaName;
+
+
     private OnFragmentInteractionListener mListener;
-
-
 
     RomanyDbOperation dbOperation;
     ChildrenDetailsInProvaAdapter adapter;
     RecyclerView childrenRecycle;
     List<ChildModel> childModels;
-    String ProvaName;
-    public ProvaDetailFragment() {
-        // Required empty public constructor
-    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProvaDetailFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ProvaDetailFragment newInstance(String param1, String param2) {
+    public ProvaDetailFragment() {}
+
+    public static ProvaDetailFragment newInstance(int coirId, String provaName)
+    {
         ProvaDetailFragment fragment = new ProvaDetailFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(PROVA_ID_KEY, coirId);
+        args.putString(PROVA_NAME_KEY, provaName);
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            provaID = getArguments().getInt(PROVA_ID_KEY);
+            provaName = getArguments().getString(PROVA_NAME_KEY);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         View fragment=inflater.inflate(R.layout.activity_prova_details, container, false);
         childrenRecycle=(RecyclerView)fragment.findViewById(R.id.ProvaDetai_RV);
         childModels=new ArrayList<>();
-        Bundle bundle=getArguments();
-        int id=bundle.getInt("id");
-        ProvaName=bundle.getString("provaName");
+
         dbOperation=new RomanyDbOperation();
-        for (int i=0;i<dbOperation.getChildrenInProva(id).size();i++)
+        for (int i=0;i<dbOperation.getChildrenInProva(provaID).size();i++)
         {
-            childModels.add(dbOperation.getChildrenInProva(id).get(i).getChildRelationObject());
+            childModels.add(dbOperation.getChildrenInProva(provaID).get(i).getChildRelationObject());
         }
         adapter=new ChildrenDetailsInProvaAdapter(childModels, getActivity());
         childrenRecycle.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -120,8 +111,6 @@ public class ProvaDetailFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-
-
     private void CreateExcell()
     {
         Workbook wb = new HSSFWorkbook();
@@ -135,7 +124,8 @@ public class ProvaDetailFragment extends Fragment {
             cell.setCellValue(childModels.get(i).getChildName());
             sheet.setColumnWidth(0,(15*500));
         }
-        File file = new File(getActivity().getExternalFilesDir(null),ProvaName+".xls");
+
+        File file = new File(getActivity().getExternalFilesDir(null),provaName+".xls");
         FileOutputStream outputStream =null;
         try {
             outputStream=new FileOutputStream(file);
@@ -152,13 +142,11 @@ public class ProvaDetailFragment extends Fragment {
         }
     }
 
-
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.save_menu,menu);
         super.onCreateOptionsMenu(menu,inflater);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

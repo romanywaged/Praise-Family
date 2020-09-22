@@ -27,6 +27,7 @@ import com.example.romany.DB.ChildModel;
 import com.example.romany.DB.ChoirModel;
 import com.example.romany.DB.RomanyDbOperation;
 import com.example.romany.R;
+import com.example.romany.activities.ChildDBActivity;
 import com.example.romany.adapters.ChildAdapter;
 import com.example.romany.model.OnChildClicked;
 import com.example.romany.model.TranemClass;
@@ -53,41 +54,25 @@ import java.util.List;
  * Use the {@link ViewAllFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ViewAllFragment extends Fragment implements OnChildClicked {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class ViewAllFragment extends Fragment implements OnChildClicked
+{
+    private static final String COIR_ID_KEY = "id";
+    private int coirID;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     RomanyDbOperation dbOperation;
     RecyclerView RV_Child;
     ChildAdapter adapter;
     List<ChildModel>child;
-    int Choir_ID;
     ChoirModel choirModel;
     private OnFragmentInteractionListener mListener;
 
-    public ViewAllFragment() {
-        // Required empty public constructor
-    }
+    public ViewAllFragment() {}
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ViewAllFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ViewAllFragment newInstance(String param1, String param2) {
+    public static ViewAllFragment newInstance(int coirId)
+    {
         ViewAllFragment fragment = new ViewAllFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(COIR_ID_KEY, coirId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -95,10 +80,8 @@ public class ViewAllFragment extends Fragment implements OnChildClicked {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        if (getArguments() != null)
+            coirID = getArguments().getInt(COIR_ID_KEY);
     }
 
     @Override
@@ -106,10 +89,9 @@ public class ViewAllFragment extends Fragment implements OnChildClicked {
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_view_all, container, false);
         RV_Child=(RecyclerView)view.findViewById(R.id.Child_RV);
-        Bundle bundle=getArguments();
-        Choir_ID=bundle.getInt("id");
+
         dbOperation=new RomanyDbOperation();
-        choirModel=dbOperation.selectChoirByID(Choir_ID).get(0);
+        choirModel=dbOperation.selectChoirByID(coirID).get(0);
         setHasOptionsMenu(true);
 
         adapter=new ChildAdapter(getActivity(),this);
@@ -125,7 +107,7 @@ public class ViewAllFragment extends Fragment implements OnChildClicked {
 
     @Override
     public void onStart() {
-        child=new ArrayList<>(dbOperation.selectAllChildrenForSameChoir(Choir_ID));
+        child=new ArrayList<>(dbOperation.selectAllChildrenForSameChoir(coirID));
         adapter=new ChildAdapter(getActivity(),this);
         SortArray(child);
         adapter.SetChildren(child);
@@ -147,15 +129,19 @@ public class ViewAllFragment extends Fragment implements OnChildClicked {
     }
 
     @Override
-    public void clicked(ChildModel childModel) {
-        FragmentManager manager=getFragmentManager();
-        FragmentTransaction transaction=manager.beginTransaction();
-        ChildInfoFragment ChildInfo=new ChildInfoFragment();
-        Bundle bundle=new Bundle();
-        bundle.putInt("id",childModel.getChildId());
-        ChildInfo.setArguments(bundle);
-        transaction.replace(R.id.contain,ChildInfo)
-                .commit();
+    public void clicked(ChildModel childModel)
+    {
+        ChildInfoFragment ChildInfo = ChildInfoFragment.newInstance(coirID);
+        ((ChildDBActivity)getActivity()).replaceFragment(ChildInfo, ChildInfo.getTag(), true);
+
+//        FragmentManager manager=getFragmentManager();
+//        FragmentTransaction transaction=manager.beginTransaction();
+//        ChildInfoFragment ChildInfo=new ChildInfoFragment();
+//        Bundle bundle=new Bundle();
+//        bundle.putInt("id",childModel.getChildId());
+//        ChildInfo.setArguments(bundle);
+//        transaction.replace(R.id.contain,ChildInfo)
+//                .commit();
     }
 
     public interface OnFragmentInteractionListener {
@@ -222,7 +208,7 @@ public class ViewAllFragment extends Fragment implements OnChildClicked {
                 UpdateFragment addProvaFrag=new UpdateFragment();
                 Bundle bundle=new Bundle();
                 bundle.putInt("id",childModel1.getChildId());
-                bundle.putInt("Choir",Choir_ID);
+                bundle.putInt("Choir",coirID);
                 addProvaFrag.setArguments(bundle);
                 transaction.replace(R.id.contain,addProvaFrag)
                         .commit();
@@ -232,7 +218,7 @@ public class ViewAllFragment extends Fragment implements OnChildClicked {
                 dbOperation.DeleteChild(childModel);
                 Toast.makeText(getActivity(),"Child Deleted",Toast.LENGTH_LONG).show();
                 child.clear();
-                child=new ArrayList<>(dbOperation.selectAllChildrenForSameChoir(Choir_ID));
+                child=new ArrayList<>(dbOperation.selectAllChildrenForSameChoir(coirID));
                 adapter.SetChildren(child);
                 adapter.notifyDataSetChanged();
                 return true;
@@ -294,8 +280,8 @@ public class ViewAllFragment extends Fragment implements OnChildClicked {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dbOperation.DeleteAllChildren(Choir_ID);
-                        dbOperation.deleteAllProvas(Choir_ID);
+                        dbOperation.DeleteAllChildren(coirID);
+                        dbOperation.deleteAllProvas(coirID);
                         child.clear();
                         adapter.SetChildren(child);
                         adapter.notifyDataSetChanged();

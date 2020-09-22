@@ -7,19 +7,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activities.ChildDBActivity">
+
   <FrameLayout
       android:id="@+id/contain"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:layout_above="@id/bottom_Nav"/>
+      android:layout_above="@id/coir_bottom_Nav"/>
+
   <androidx.viewpager.widget.ViewPager
       android:id="@+id/viewPager"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:layout_above="@id/bottom_Nav"
-      />
+      android:layout_above="@id/coir_bottom_Nav" />
+
 <com.google.android.material.bottomnavigation.BottomNavigationView
-    android:id="@+id/bottom_Nav"
+    android:id="@+id/coir_bottom_Nav"
     android:layout_width="match_parent"
     android:layout_alignParentBottom="true"
     app:menu="@menu/bottom_menu"
