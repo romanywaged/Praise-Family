@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.romany.DB.ChildModel;
@@ -61,6 +62,7 @@ public class ViewAllFragment extends Fragment implements OnChildClicked
 
     RomanyDbOperation dbOperation;
     RecyclerView RV_Child;
+    TextView NoShow;
     ChildAdapter adapter;
     List<ChildModel>child;
     ChoirModel choirModel;
@@ -90,6 +92,7 @@ public class ViewAllFragment extends Fragment implements OnChildClicked
         View view=inflater.inflate(R.layout.fragment_view_all, container, false);
         RV_Child=(RecyclerView)view.findViewById(R.id.Child_RV);
 
+        NoShow=(TextView)view.findViewById(R.id.NoShow_View);
         dbOperation=new RomanyDbOperation();
         choirModel=dbOperation.selectChoirByID(coirID).get(0);
         setHasOptionsMenu(true);
@@ -108,6 +111,11 @@ public class ViewAllFragment extends Fragment implements OnChildClicked
     @Override
     public void onStart() {
         child=new ArrayList<>(dbOperation.selectAllChildrenForSameChoir(coirID));
+        if (child.size()!=0)
+        {
+            NoShow.setVisibility(View.INVISIBLE);
+            RV_Child.setVisibility(View.VISIBLE);
+        }
         adapter=new ChildAdapter(getActivity(),this);
         SortArray(child);
         adapter.SetChildren(child);
@@ -131,7 +139,7 @@ public class ViewAllFragment extends Fragment implements OnChildClicked
     @Override
     public void clicked(ChildModel childModel)
     {
-        ChildInfoFragment ChildInfo = ChildInfoFragment.newInstance(coirID);
+        ChildInfoFragment ChildInfo = ChildInfoFragment.newInstance(childModel.getChildId());
         ((ChildDBActivity)getActivity()).replaceFragment(ChildInfo, ChildInfo.getTag(), true);
 
 //        FragmentManager manager=getFragmentManager();
@@ -219,6 +227,15 @@ public class ViewAllFragment extends Fragment implements OnChildClicked
                 Toast.makeText(getActivity(),"Child Deleted",Toast.LENGTH_LONG).show();
                 child.clear();
                 child=new ArrayList<>(dbOperation.selectAllChildrenForSameChoir(coirID));
+                if (child.size()!=0)
+                {
+                    NoShow.setVisibility(View.INVISIBLE);
+                    RV_Child.setVisibility(View.VISIBLE);
+                }
+                else {
+                    NoShow.setVisibility(View.VISIBLE);
+                    RV_Child.setVisibility(View.INVISIBLE);
+                }
                 adapter.SetChildren(child);
                 adapter.notifyDataSetChanged();
                 return true;
@@ -283,6 +300,8 @@ public class ViewAllFragment extends Fragment implements OnChildClicked
                         dbOperation.DeleteAllChildren(coirID);
                         dbOperation.deleteAllProvas(coirID);
                         child.clear();
+                        NoShow.setVisibility(View.VISIBLE);
+                        RV_Child.setVisibility(View.INVISIBLE);
                         adapter.SetChildren(child);
                         adapter.notifyDataSetChanged();
                         dialog.dismiss();

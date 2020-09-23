@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".fragments.HomeFragment">
     <androidx.recyclerview.widget.RecyclerView
+        android:visibility="invisible"
         android:id="@+id/Prova_RV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
@@ -18,4 +19,15 @@
         android:layout_marginRight="15dp"
         android:src="@drawable/ic_create"
         android:layout_marginBottom="15dp"/>
+    <TextView
+        android:id="@+id/NoShow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="No Provas To Show !"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        />
 </RelativeLayout>

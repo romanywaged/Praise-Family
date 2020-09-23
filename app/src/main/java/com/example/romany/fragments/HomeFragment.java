@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.romany.DB.ProvaModel;
@@ -46,6 +47,7 @@ public class HomeFragment extends Fragment implements OnProvaSelectedListener
     private OnFragmentInteractionListener mListener;
 
     private RecyclerView provas;
+    private TextView No_ToShow;
     private List<ProvaModel>mlist;
     private ProvaAdapter adapter;
     private FloatingActionButton addProva;
@@ -76,10 +78,18 @@ public class HomeFragment extends Fragment implements OnProvaSelectedListener
         View fragment=inflater.inflate(R.layout.fragment_home, container, false);
 
         provas=(RecyclerView)fragment.findViewById(R.id.Prova_RV);
+        No_ToShow=(TextView)fragment.findViewById(R.id.NoShow);
+
         addProva=(FloatingActionButton)fragment.findViewById(R.id.createProva_btn);
 
         dbOperation=new RomanyDbOperation();
         mlist=new ArrayList<>(dbOperation.SelectAllProvas(coirID));
+        if (mlist.size()!=0)
+        {
+            No_ToShow.setVisibility(View.INVISIBLE);
+            provas.setVisibility(View.VISIBLE);
+        }
+
         AddProva();
         deleteProvaFromDB();
         setHasOptionsMenu(true);
@@ -127,8 +137,19 @@ public class HomeFragment extends Fragment implements OnProvaSelectedListener
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 dbOperation.deleteProva(adapter.ProvaAt(viewHolder.getAdapterPosition()));
                 mlist=new ArrayList<>(dbOperation.SelectAllProvas(coirID));
-                adapter.setProva(mlist);
-                Toast.makeText(getActivity(),"Prova Deleted",Toast.LENGTH_LONG).show();
+                if (mlist.size()!=0)
+                {
+                    No_ToShow.setVisibility(View.INVISIBLE);
+                    provas.setVisibility(View.VISIBLE);
+                    adapter.setProva(mlist);
+                    Toast.makeText(getActivity(),"Prova Deleted",Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    No_ToShow.setVisibility(View.VISIBLE);
+                    provas.setVisibility(View.INVISIBLE);
+                    Toast.makeText(getActivity(),"Prova Deleted",Toast.LENGTH_LONG).show();
+                }
             }
         }).attachToRecyclerView(provas);
     }
@@ -194,6 +215,8 @@ public class HomeFragment extends Fragment implements OnProvaSelectedListener
                 dbOperation.deleteAllProvas(coirID);
                 mlist.clear();
                 adapter.setProva(mlist);
+                No_ToShow.setVisibility(View.VISIBLE);
+                provas.setVisibility(View.INVISIBLE);
                 adapter.notifyDataSetChanged();
                 return true;
             default:
