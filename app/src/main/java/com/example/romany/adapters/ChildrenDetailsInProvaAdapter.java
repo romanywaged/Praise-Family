@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,10 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.romany.DB.ChildModel;
 import com.example.romany.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ChildrenDetailsInProvaAdapter extends RecyclerView.Adapter<ChildrenDetailsInProvaAdapter.MyDetailHolder> {
+public class ChildrenDetailsInProvaAdapter extends RecyclerView.Adapter<ChildrenDetailsInProvaAdapter.MyDetailHolder> implements Filterable {
     List<ChildModel>children;
+    private List<ChildModel>filterdata;
     Context context;
 
     public ChildrenDetailsInProvaAdapter(List<ChildModel> children, Context context) {
@@ -44,6 +48,43 @@ public class ChildrenDetailsInProvaAdapter extends RecyclerView.Adapter<Children
     public int getItemCount() {
         return children.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return examplefilter;
+    }
+    private Filter examplefilter=new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<ChildModel> filteredList=new ArrayList<>();
+            if (constraint==null||constraint.length()==0)
+            {
+                filteredList.addAll(filterdata);
+            }
+            else
+            {
+                String filterpattern=constraint.toString().toLowerCase().trim();
+                for (ChildModel model:filterdata)
+                {
+                    if (model.getChildName().toLowerCase().contains(filterpattern)
+                            ||String.valueOf(model.getChildId()).toLowerCase().contains(filterpattern))
+                    {
+                        filteredList.add(model);
+                    }
+                }
+            }
+            FilterResults results=new FilterResults();
+            results.values=filteredList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            children.clear();
+            children.addAll((List)results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public class MyDetailHolder extends RecyclerView.ViewHolder {
         TextView textName,ID;

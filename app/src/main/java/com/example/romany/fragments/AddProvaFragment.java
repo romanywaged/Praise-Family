@@ -4,15 +4,21 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.SearchView;
+
 import com.example.romany.DB.ChildModel;
 import com.example.romany.DB.ProvaModel;
 import com.example.romany.DB.RomanyDbOperation;
@@ -80,9 +86,35 @@ public class AddProvaFragment extends Fragment implements OnCheckBoxClickListene
         dbOperation = new RomanyDbOperation();
         childModels = new ArrayList<>(dbOperation.selectAllChildrenForSameChoir(coirID));
         functions = new CommonFunctions();
+        setHasOptionsMenu(true);
         addProva();
         return view;
     }
+
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.search,menu);
+        MenuItem searchitem=menu.findItem(R.id.searchChildrenInAddProva);
+        SearchView searchView=(SearchView)searchitem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+
+
+
+
 
     private void addProva() {
         submit.setOnClickListener(v ->
@@ -101,14 +133,6 @@ public class AddProvaFragment extends Fragment implements OnCheckBoxClickListene
                 functions.ShowMessage(getActivity(), "Created!");
 
                 Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStack();
-//                FragmentManager manager = getFragmentManager();
-//                FragmentTransaction transaction = manager.beginTransaction();
-//                HomeFragment home = new HomeFragment();
-//                Bundle bundle = new Bundle();
-//                bundle.putInt("id", coirID);
-//                home.setArguments(bundle);
-//                transaction.replace(R.id.contain, home)
-//                        .commit();
             }
         });
     }

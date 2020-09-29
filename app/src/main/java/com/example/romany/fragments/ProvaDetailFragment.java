@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.romany.DB.ChildModel;
@@ -145,6 +146,20 @@ public class ProvaDetailFragment extends Fragment
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.save_menu,menu);
+        MenuItem searchitem=menu.findItem(R.id.searchChildrenInProvaDetail);
+        SearchView searchView=(SearchView)searchitem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
         super.onCreateOptionsMenu(menu,inflater);
     }
 

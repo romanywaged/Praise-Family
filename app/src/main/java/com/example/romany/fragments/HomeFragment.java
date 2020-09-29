@@ -181,17 +181,6 @@ public class HomeFragment extends Fragment implements OnProvaSelectedListener
     {
         ProvaDetailFragment addProvaFrag= ProvaDetailFragment.newInstance(provaModel.getProvaID(), provaModel.getProvaName());
         ((ChildDBActivity)getActivity()).replaceFragment(addProvaFrag, addProvaFrag.getTag(), true);
-
-
-//        FragmentManager manager=getFragmentManager();
-//        FragmentTransaction transaction=manager.beginTransaction();
-//        ProvaDetailFragment addProvaFrag=new ProvaDetailFragment();
-//        Bundle bundle=new Bundle();
-//        bundle.putInt("id",provaModel.getProvaID());
-//        bundle.putString("provaName",provaModel.getProvaName());
-//        addProvaFrag.setArguments(bundle);
-//        transaction.replace(R.id.contain,addProvaFrag)
-//                .commit();
     }
 
     public interface OnFragmentInteractionListener {
