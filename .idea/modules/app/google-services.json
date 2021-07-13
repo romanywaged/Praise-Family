@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "758384761019",
+    "firebase_url": "https://praise-family.firebaseio.com",
+    "project_id": "praise-family",
+    "storage_bucket": "praise-family.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:758384761019:android:7d9502fff47793ded6f19e",
+        "android_client_info": {
+          "package_name": "com.example.romany"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "758384761019-aajrd6e5cst9ji3hm3pr0bop1eppfmov.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.romany",
+            "certificate_hash": "2e547bea2801175a2d3743b61c6f093960366975"
+          }
+        },
+        {
+          "client_id": "758384761019-i21qvmo6131u3gl3lr8mr9tg69t3e7k2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-QRJOGxDeeuxLyOvTcZQ_DDQUE4FfEYI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "758384761019-i21qvmo6131u3gl3lr8mr9tg69t3e7k2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

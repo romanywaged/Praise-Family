@@ -15,6 +15,7 @@ public class ChildProvaRelation extends BaseModel {
     @ForeignKey(tableClass = ChildModel.class,
             onDelete = ForeignKeyAction.CASCADE
     )
+
     @Column
     ChildModel childRelationObject;
 
@@ -47,5 +48,4 @@ public class ChildProvaRelation extends BaseModel {
     public void setID(int ID) {
         this.ID = ID;
     }
-
 }

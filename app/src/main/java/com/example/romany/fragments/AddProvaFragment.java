@@ -1,10 +1,12 @@
 package com.example.romany.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.SearchView;
 
 import com.example.romany.DB.ChildModel;
@@ -138,7 +141,7 @@ public class AddProvaFragment extends Fragment implements OnCheckBoxClickListene
     }
 
 
-    private void SortArray(List<ChildModel> childModels) {
+   /* private void SortArray(List<ChildModel> childModels) {
         Collections.sort(childModels, new Comparator<ChildModel>() {
             @Override
             public int compare(ChildModel o1, ChildModel o2) {
@@ -146,7 +149,7 @@ public class AddProvaFragment extends Fragment implements OnCheckBoxClickListene
             }
         });
 
-    }
+    }*/
 
 
     public void onButtonPressed(Uri uri) {
@@ -165,7 +168,7 @@ public class AddProvaFragment extends Fragment implements OnCheckBoxClickListene
     @Override
     public void onStart() {
         adapter = new AddProvaAdapter(getActivity(), this);
-        SortArray(childModels);
+       // SortArray(childModels);
         adapter.setChildren(childModels);
         adapter.notifyDataSetChanged();
         recyclerAddProva.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -180,11 +183,22 @@ public class AddProvaFragment extends Fragment implements OnCheckBoxClickListene
     }
 
     @Override
-    public void click(CheckBox checkBox, View view, ChildModel childModel) {
-        if (checkBox.isChecked()) {
+    public void click(ImageView checked, CardView cardView, ChildModel childModel) {
+        if (checked.getVisibility() == View.GONE)
+        {
+            checked.setVisibility(View.VISIBLE);
+
             Selected.add(childModel);
-        } else {
+
+            cardView.setBackgroundColor(Color.LTGRAY);
+        }
+        else
+        {
+            checked.setVisibility(View.GONE);
+
             Selected.remove(childModel);
+
+            cardView.setBackgroundColor(Color.WHITE);
         }
     }
 

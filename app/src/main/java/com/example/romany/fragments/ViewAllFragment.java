@@ -117,7 +117,7 @@ public class ViewAllFragment extends Fragment implements OnChildClicked
             RV_Child.setVisibility(View.VISIBLE);
         }
         adapter=new ChildAdapter(getActivity(),this);
-        SortArray(child);
+        //SortArray(child);
         adapter.SetChildren(child);
         adapter.notifyDataSetChanged();
         RV_Child.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -157,7 +157,7 @@ public class ViewAllFragment extends Fragment implements OnChildClicked
     }
 
 
-    private void SortArray(List<ChildModel> childModels)
+   /* private void SortArray(List<ChildModel> childModels)
     {
         Collections.sort(childModels, new Comparator<ChildModel>() {
             @Override
@@ -166,7 +166,7 @@ public class ViewAllFragment extends Fragment implements OnChildClicked
             }
         });
 
-    }
+    }*/
 
 
     @Override
